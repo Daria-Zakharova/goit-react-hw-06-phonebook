@@ -8,7 +8,6 @@ import { ContactForm } from "components/ContactAddForm/ContactForm";
 import { Filter } from "components/Filter/Filter";
 import { ContactList } from "components/ContactList/ContactList";
 
-
 export class App extends Component {
   state= {
     contacts: [],
@@ -20,8 +19,12 @@ export class App extends Component {
     savedContacts && this.setState({contacts: [...savedContacts]});
   }
 
-  componentDidUpdate() {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  componentDidUpdate(_, prevState) {
+    const {contacts} = this.state;
+
+    if(contacts !== prevState.contacts){
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
   }
 
   addContact = ({name, number}, {resetForm}) => {
