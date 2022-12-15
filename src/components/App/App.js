@@ -22,7 +22,7 @@ export class App extends Component {
   componentDidUpdate(_, prevState) {
     const {contacts} = this.state;
 
-    if(contacts !== prevState.contacts){
+    if(contacts && contacts !== prevState.contacts){
       console.log('written to local storage');
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
