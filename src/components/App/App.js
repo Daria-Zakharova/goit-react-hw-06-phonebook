@@ -23,7 +23,6 @@ export class App extends Component {
     const {contacts} = this.state;
 
     if(contacts.length && contacts !== prevState.contacts){
-      console.log('written to local storage');
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
