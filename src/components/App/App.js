@@ -53,7 +53,6 @@ export class App extends Component {
   }
 
   filterContacts= (e) => {
-    console.log(e.target);
     this.setState({filter: e.target.value})
   };
 
