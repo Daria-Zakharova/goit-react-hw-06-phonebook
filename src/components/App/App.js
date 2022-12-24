@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { nanoid } from "nanoid";
 import { toast, Toaster } from "react-hot-toast";
 import { filterByName } from "utils/filter-by-name";
@@ -14,7 +14,7 @@ export const App = () => {
 
   useEffect(() => {
     const savedContacts = JSON.parse(localStorage.getItem('contacts'));
-    savedContacts && setContacts(savedContacts);
+    savedContacts && setContacts(() => savedContacts);
   }, []);
 
   useEffect(() => {
