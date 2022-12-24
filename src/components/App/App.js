@@ -33,9 +33,8 @@ export const App = () => {
       name, 
       number,
     };
-
+    
     setContacts([...contacts, contact]);
-
     resetForm();
   }
 
@@ -44,16 +43,12 @@ export const App = () => {
     setContacts(contacts.filter(contact => contact.id !== id));
   }
 
-  const filterContacts= (e) => {
-    setFilter(e.target.value);
-  };
-
   return (
     <AppCard>
       <Toaster/>
       <AppTitle>Contacts</AppTitle>
       <ContactForm onFormSubmit={addContact}/>
-      { contacts.length > 0 && <Filter filterStr={filter} onFilterChange = {filterContacts}/>}  
+      { contacts.length > 0 && <Filter filterStr={filter} onFilterChange = {(e) => {setFilter(e.target.value);}}/>}  
       <ContactList contacts={!filter ? contacts : filterByName(contacts, filter)} onClickCloseBtn={deleteContact}/>
     </AppCard>
   );
