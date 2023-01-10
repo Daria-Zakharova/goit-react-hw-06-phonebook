@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getContacts, getFilter } from "redux/selectors";
 import { changeFilter } from "redux/filter-slice";
 
-export const Filter = ({filterStr, onFilterChange}) => {
+export const Filter = () => {
     const dispatch = useDispatch();
     const contacts = useSelector(getContacts);
     const filter = useSelector(getFilter);
-
     
     return (
         <>
