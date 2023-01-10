@@ -1,19 +1,26 @@
 import { Formik, Form} from "formik";
-import PropTypes from 'prop-types';
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from "redux/contacts-slice";
+import { getContacts } from "redux/selectors";
+import { NameIsInContacts } from "utils/check-by-name";
+import { schema } from "utils/validation";
 import { AddContactWrap, Input, AddContactBtn, ErrorNotify } from "./ContactForm.styled";
-import * as yup from 'yup';
 
-export const ContactForm = ({onFormSubmit}) => {
+export const ContactForm = () => {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
-  const NUMBER_REGEXP = /\+?\d{1,4}?[-\d\s]?\(?\d{1,3}?\)?[-\d\s]?\d{1,4}[-\d\s]?\d{1,4}[-\d\s]?\d{1,9}/;
-  const NUMBERS_ONLY_REGEXP = /^\+?[\d\s-()]*$/;
-  const errorMsg = 'Phone number must be at least 5 digits, can contain spaces, dashes, parentheses and can start with +';
-  const numbersOnlyMsg = 'Phone number can contain digits, spaces, dashes, parentheses and +';
+  const onContactAdd = ({name, number}, {resetForm}) => {
+    
+    if(NameIsInContacts(contacts, name)) {
+      resetForm();
+      return toast.error(`${name} is already in contacts`);
+    }
 
-  const schema = yup.object().shape({
-    name: yup.string().min(3).required(),
-    number: yup.string().matches(NUMBER_REGEXP, errorMsg).matches(NUMBERS_ONLY_REGEXP, numbersOnlyMsg).required(),
-  });
+    dispatch(addContact(name, number));
+    resetForm();
+  }
 
   return (
     <AddContactWrap>
@@ -24,7 +31,7 @@ export const ContactForm = ({onFormSubmit}) => {
               number: '',
           }}
           validationSchema ={schema}
-          onSubmit={onFormSubmit}
+          onSubmit={onContactAdd}
        >      
            <Form>
              <label>Name
@@ -46,8 +53,4 @@ export const ContactForm = ({onFormSubmit}) => {
       </Formik>
     </AddContactWrap>
  )
-}
-
-ContactForm.propTypes = {
-  onFormSubmit: PropTypes.func.isRequired,
 }
