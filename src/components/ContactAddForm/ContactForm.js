@@ -14,7 +14,6 @@ export const ContactForm = () => {
   const onContactAdd = ({name, number}, {resetForm}) => {
     
     if(NameIsInContacts(contacts, name)) {
-      resetForm();
       return toast.error(`${name} is already in contacts`);
     }
 
